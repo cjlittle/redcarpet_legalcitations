@@ -7,8 +7,8 @@ if defined? Encoding
 end
 
 require 'test/unit'
-require 'redcarpet'
-require 'redcarpet/render_man'
+require 'redcarpet_legalcitations'
+require 'redcarpet_legalcitations/render_man'
 require 'nokogiri'
 
 def html_equal(html_a, html_b)

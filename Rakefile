@@ -9,7 +9,7 @@ task :default => [:test]
 # Ruby Extension
 # ==========================================================
 
-Rake::ExtensionTask.new('redcarpet')
+Rake::ExtensionTask.new('redcarpet_legalcitations')
 
 # ==========================================================
 # Testing
@@ -24,7 +24,7 @@ task 'test:unit' => [:compile]
 
 desc 'Run conformance tests (MARKDOWN_TEST_VER=1.0)'
 task 'test:conformance' => [:compile] do |t|
-  script = "#{pwd}/bin/redcarpet"
+  script = "#{pwd}/bin/redcarpet_legalcitations"
   test_version = ENV['MARKDOWN_TEST_VER'] || '1.0.3'
   lib_dir = "#{pwd}/lib"
   chdir("test/MarkdownTest_#{test_version}") do
@@ -56,10 +56,10 @@ end
 # PACKAGING =================================================================
 
 require 'rubygems'
-$spec = eval(File.read('redcarpet.gemspec'))
+$spec = eval(File.read('redcarpet_legalcitations.gemspec'))
 
 def package(ext='')
-  "pkg/redcarpet-#{$spec.version}" + ext
+  "pkg/redcarpet_legalcitations-#{$spec.version}" + ext
 end
 
 desc 'Build packages'
@@ -72,8 +72,8 @@ end
 
 directory 'pkg/'
 
-file package('.gem') => %w[pkg/ redcarpet.gemspec] + $spec.files do |f|
-  sh "gem build redcarpet.gemspec"
+file package('.gem') => %w[pkg/ redcarpet_legalcitations.gemspec] + $spec.files do |f|
+  sh "gem build redcarpet_legalcitations.gemspec"
   mv File.basename(f.name), f.name
 end
 
@@ -84,13 +84,13 @@ end
 # GEMSPEC HELPERS ==========================================================
 
 def source_version
-  line = File.read('lib/redcarpet.rb')[/^\s*VERSION = .*/]
+  line = File.read('lib/redcarpet_legalcitations.rb')[/^\s*VERSION = .*/]
   line.match(/.*VERSION = '(.*)'/)[1]
 end
 
 task :update_gem do
   # read spec file and split out manifest section
-  GEMFILE = 'redcarpet.gemspec'
+  GEMFILE = 'redcarpet_legalcitations.gemspec'
   spec = File.read(GEMFILE)
   head, manifest, tail = spec.split("  # = MANIFEST =\n")
   head.sub!(/\.version = '.*'/, ".version = '#{source_version}'")
@@ -118,7 +118,7 @@ task :gather => 'sundown:checkout' do |t|
       'sundown/html/{html,html_smartypants,houdini_html_e,houdini_href_e}.c',
       'sundown/html/{html,houdini}.h',
     ]
-  cp files, 'ext/redcarpet/',
+  cp files, 'ext/redcarpet_legalcitations/',
     :preserve => true,
     :verbose => true
 end
