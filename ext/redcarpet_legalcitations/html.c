@@ -161,6 +161,16 @@ rndr_blockquote(struct buf *ob, const struct buf *text, void *opaque)
 }
 
 static int
+rndr_citation(struct buf *ob, const struct buf *text, void *opaque)
+{
+	if (ob->size) bufputc(ob, '\n');
+	BUFPUTSL(ob, "<span>\n");
+	if (text) bufput(ob, text->data, text->size);
+	BUFPUTSL(ob, "</span>\n");
+	return 1;
+}
+
+static int
 rndr_codespan(struct buf *ob, const struct buf *text, void *opaque)
 {
 	BUFPUTSL(ob, "<code>");
@@ -556,6 +566,7 @@ sdhtml_toc_renderer(struct sd_callbacks *callbacks, struct html_renderopt *optio
 		NULL,
 
 		NULL,
+		NULL,
 		rndr_codespan,
 		rndr_double_emphasis,
 		rndr_emphasis,
@@ -597,6 +608,7 @@ sdhtml_renderer(struct sd_callbacks *callbacks, struct html_renderopt *options, 
 		rndr_tablecell,
 
 		rndr_autolink,
+		rndr_citation,
 		rndr_codespan,
 		rndr_double_emphasis,
 		rndr_emphasis,

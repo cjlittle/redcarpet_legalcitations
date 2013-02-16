@@ -65,6 +65,7 @@ typedef size_t
 
 static size_t char_emphasis(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset, size_t size);
 static size_t char_linebreak(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset, size_t size);
+static size_t char_citation(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset, size_t size);
 static size_t char_codespan(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset, size_t size);
 static size_t char_escape(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset, size_t size);
 static size_t char_entity(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset, size_t size);
@@ -78,6 +79,7 @@ static size_t char_superscript(struct buf *ob, struct sd_markdown *rndr, uint8_t
 enum markdown_char_t {
 	MD_CHAR_NONE = 0,
 	MD_CHAR_EMPHASIS,
+	MD_CHAR_CITATION,
 	MD_CHAR_CODESPAN,
 	MD_CHAR_LINEBREAK,
 	MD_CHAR_LINK,
@@ -93,6 +95,7 @@ enum markdown_char_t {
 static char_trigger markdown_char_ptrs[] = {
 	NULL,
 	&char_emphasis,
+	&char_citation,
 	&char_codespan,
 	&char_linebreak,
 	&char_link,
@@ -640,6 +643,54 @@ char_linebreak(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t o
 		ob->size--;
 
 	return rndr->cb.linebreak(ob, rndr->opaque) ? 1 : 0;
+}
+
+
+/* char_citation • '[': parsing a citation */
+static size_t
+char_citation(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t offset, size_t size)
+{
+	int level;
+	size_t i = 1, citation_e = 0;
+	struct buf *citation = 0;
+	size_t org_work_size = rndr->work_bufs[BUFFER_SPAN].size;
+	int ret = 0;
+
+	/* checking whether the renderer exists */
+	if (!rndr->cb.citation)
+		goto cleanup;
+
+	/* looking for the matching closing bracket */
+	for (level = 1; i < size; i++) {
+		if (data[i - 1] == '\\')
+			continue;
+
+		else if (data[i] == '[')
+			level++;
+
+		else if (data[i] == ']') {
+			level--;
+			if (level <= 0)
+				break;
+		}
+	}
+
+	if (i >= size)
+		goto cleanup;
+
+	citation_e = i;
+
+	/* build citation field */
+	if (citation_e > 1) {
+		citation = rndr_newbuf(rndr, BUFFER_SPAN);
+		bufput(citation, data + 1, citation_e - 1);
+		ret = rndr->cb.citation(ob, citation, rndr->opaque);
+	}
+
+	/* cleanup */
+cleanup:
+	rndr->work_bufs[BUFFER_SPAN].size = (int)org_work_size;
+	return ret ? i : 0;
 }
 
 
@@ -2428,8 +2479,13 @@ sd_markdown_new(
 	if (md->cb.linebreak)
 		md->active_char['\n'] = MD_CHAR_LINEBREAK;
 
+/*	Native Markdown Processing of '[]' as links and images
 	if (md->cb.image || md->cb.link)
-		md->active_char['['] = MD_CHAR_LINK;
+		md->active_char['['] = MD_CHAR_LINK;*/
+
+	/* Acadmx-Markdown Processing of '[]' as citations */
+	if (md->cb.citation)
+		md->active_char['['] = MD_CHAR_CITATION;
 
 	md->active_char['<'] = MD_CHAR_LANGLE;
 	md->active_char['\\'] = MD_CHAR_ESCAPE;

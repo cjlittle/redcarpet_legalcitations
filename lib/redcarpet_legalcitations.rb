@@ -1,4 +1,4 @@
-require 'redcarpet_legalcitations.so'
+require 'redcarpet_legalcitations'
 
 module Redcarpet
   VERSION = '1.0.0'
