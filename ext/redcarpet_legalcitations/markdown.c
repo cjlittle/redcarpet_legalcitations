@@ -679,6 +679,7 @@ char_citation(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t of
 		goto cleanup;
 
 	citation_e = i;
+	i++;
 
 	/* build citation field */
 	if (citation_e > 1) {
@@ -2479,11 +2480,12 @@ sd_markdown_new(
 	if (md->cb.linebreak)
 		md->active_char['\n'] = MD_CHAR_LINEBREAK;
 
-/*	Native Markdown Processing of '[]' as links and images
+    /*	Native Markdown Processing of '[]' as links and images */
 	if (md->cb.image || md->cb.link)
-		md->active_char['['] = MD_CHAR_LINK;*/
+		md->active_char['['] = MD_CHAR_LINK;
 
-	/* Acadmx-Markdown Processing of '[]' as citations */
+	/* Acadmx-Markdown Processing of '[]' as citations. */
+	/* NOTE: This will override processing of images or links if defined*/
 	if (md->cb.citation)
 		md->active_char['['] = MD_CHAR_CITATION;
 

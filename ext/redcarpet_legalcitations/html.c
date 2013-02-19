@@ -163,10 +163,9 @@ rndr_blockquote(struct buf *ob, const struct buf *text, void *opaque)
 static int
 rndr_citation(struct buf *ob, const struct buf *text, void *opaque)
 {
-	if (ob->size) bufputc(ob, '\n');
-	BUFPUTSL(ob, "<span>\n");
+	BUFPUTSL(ob, "<span>");
 	if (text) bufput(ob, text->data, text->size);
-	BUFPUTSL(ob, "</span>\n");
+	BUFPUTSL(ob, "</span>");
 	return 1;
 }
 

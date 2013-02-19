@@ -148,6 +148,12 @@ rndr_autolink(struct buf *ob, const struct buf *link, enum mkd_autolink type, vo
 }
 
 static int
+rndr_citation(struct buf *ob, const struct buf *text, void *opaque)
+{
+	SPAN_CALLBACK("citation", 1, buf2str(text));
+}
+
+static int
 rndr_codespan(struct buf *ob, const struct buf *text, void *opaque)
 {
 	SPAN_CALLBACK("codespan", 1, buf2str(text));
@@ -269,6 +275,7 @@ static struct sd_callbacks rb_redcarpet_callbacks = {
 	rndr_tablecell,
 
 	rndr_autolink,
+	rndr_citation,
 	rndr_codespan,
 	rndr_double_emphasis,
 	rndr_emphasis,
@@ -301,6 +308,7 @@ static const char *rb_redcarpet_method_names[] = {
 	"table_cell",
 
 	"autolink",
+	"citation",
 	"codespan",
 	"double_emphasis",
 	"emphasis",

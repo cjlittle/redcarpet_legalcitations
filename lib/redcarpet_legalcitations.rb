@@ -1,3 +1,4 @@
+# TODO: Change this from .bundle to something platform independent
 require 'redcarpet_legalcitations.bundle'
 
 module Redcarpet
