@@ -136,7 +136,7 @@ static VALUE rb_redcarpet_md_render(VALUE self, VALUE text)
 	return text;
 }
 
-void Init_redcarpet()
+void Init_redcarpet_legalcitations()
 {
     rb_mRedcarpet = rb_define_module("Redcarpet");
 
@@ -144,6 +144,6 @@ void Init_redcarpet()
     rb_define_singleton_method(rb_cMarkdown, "new", rb_redcarpet_md__new, -1);
     rb_define_method(rb_cMarkdown, "render", rb_redcarpet_md_render, 1);
 
-	Init_redcarpet_rndr();
+	Init_redcarpet_legalcitations_rndr();
 }
 

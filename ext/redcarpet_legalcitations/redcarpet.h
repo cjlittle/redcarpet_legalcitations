@@ -17,7 +17,7 @@
 
 #define CSTR2SYM(s) (ID2SYM(rb_intern((s))))
 
-extern void Init_redcarpet_rndr();
+extern void Init_redcarpet_legalcitations_rndr();
 
 struct redcarpet_renderopt {
 	struct html_renderopt html;

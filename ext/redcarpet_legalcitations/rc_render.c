@@ -444,7 +444,7 @@ static VALUE rb_redcarpet_smartypants_render(VALUE self, VALUE text)
 	return result;
 }
 
-void Init_redcarpet_rndr()
+void Init_redcarpet_legalcitations_rndr()
 {
 	rb_mRender = rb_define_module_under(rb_mRedcarpet, "Render");
 
