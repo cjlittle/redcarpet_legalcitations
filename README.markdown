@@ -1,7 +1,7 @@
 Redcarpet_legalcitations is a fork
 ==================================
 
-Redcarpet_legalcitations is a fork of the original [Redcarpet][http://github.com/vmg/redcarpet]
+Redcarpet_legalcitations is a fork of the original [Redcarpet 2](http://github.com/vmg/redcarpet)
 written by Vicent Martí (@vmg). Why are you not following him on Twitter?
 
 This version was modified by cj little (@ibcj) to allow for parsing of markdown
