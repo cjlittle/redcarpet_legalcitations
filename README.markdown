@@ -1,3 +1,17 @@
+Redcarpet_legalcitations is a fork
+==================================
+
+Redcarpet_legalcitations is a fork of the original [Redcarpet 2][http://github.com/vmg/redcarpet]
+written by Vicent Martí (@vmg). Why are you not following him on Twitter?
+
+This version was modified by cj little (@ibcj) to allow for parsing of markdown
+that contains simple legal citations.  If a citation callback is defined, it will
+be used for all markdown with square-brackets (regardless of whether or not a link
+or image callback is defined).  If a citation callback is *not defined*, then link
+and image markdown will be processed as normal.
+
+_The Redcarpet 2 README.markdown now follows below._
+
 Redcarpet 2 is written with sugar, spice and everything nice
 ============================================================
 
@@ -320,6 +334,7 @@ Boring legal stuff
 ------------------
 
 Copyright (c) 2011, Vicent Martí
+Copyright (c) 2013, cj little
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above

@@ -1,8 +1,7 @@
-# TODO: Change this from .bundle to something platform independent
-require 'redcarpet_legalcitations.bundle'
+require 'redcarpet_legalcitations.so'
 
 module Redcarpet
-  VERSION = '1.0.0'
+  VERSION = '1.0.1'
 
   class Markdown
     attr_reader :renderer
