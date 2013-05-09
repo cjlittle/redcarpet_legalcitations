@@ -505,7 +505,7 @@ parse_emph1(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t size
 		if (data[i] == c && !_isspace(data[i - 1])) {
 
 			if (rndr->ext_flags & MKDEXT_NO_INTRA_EMPHASIS) {
-				if (i + i < size && isalnum(data[i + 1]))
+				if (i + 1 < size && isalnum(data[i + 1]))
 					continue;
 			}
 
@@ -1515,7 +1515,7 @@ parse_paragraph(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t 
 		 * here
 		 */
 		if ((rndr->ext_flags & MKDEXT_LAX_SPACING) && !isalnum(data[i])) {
-			if (prefix_oli(data + i, size - i) ||
+			if (/*prefix_oli(data + i, size - i) ||*/
 				prefix_uli(data + i, size - i)) {
 				end = i;
 				break;
@@ -1690,9 +1690,11 @@ parse_listitem(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t s
 		orgpre++;
 
 	beg = prefix_uli(data, size);
+	
+/* Removed Ordered List Detection
 	if (!beg)
 		beg = prefix_oli(data, size);
-
+*/
 	if (!beg)
 		return 0;
 
@@ -1741,7 +1743,7 @@ parse_listitem(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t s
 		 * a fenced code block */
 		if (!in_fence) {
 			has_next_uli = prefix_uli(data + beg + i, end - beg - i);
-			has_next_oli = prefix_oli(data + beg + i, end - beg - i);
+			/*has_next_oli = prefix_oli(data + beg + i, end - beg - i);*/
 		}
 
 		/* checking for ul/ol switch */
@@ -2289,9 +2291,10 @@ parse_block(struct buf *ob, struct sd_markdown *rndr, uint8_t *data, size_t size
 		else if (prefix_uli(txt_data, end))
 			beg += parse_list(ob, rndr, txt_data, end, 0);
 
+/* Removed Ordered List Detection
 		else if (prefix_oli(txt_data, end))
 			beg += parse_list(ob, rndr, txt_data, end, MKD_LIST_ORDERED);
-
+*/
 		else
 			beg += parse_paragraph(ob, rndr, txt_data, end);
 	}

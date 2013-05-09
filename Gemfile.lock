@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    redcarpet_legalcitations (1.0.1)
+    redcarpet_legalcitations (1.1.0)
 
 GEM
   remote: http://rubygems.org/

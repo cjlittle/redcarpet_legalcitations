@@ -1,10 +1,10 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name = 'redcarpet_legalcitations'
-  s.version = '1.0.1'
+  s.version = '1.1.0'
   s.summary = 'Markdown that supports legal citations'
   s.description = 'A fast, safe and extensible Markdown w/ Legal Citations to (X)HTML parser'
-  s.date = '2013-02-20'
+  s.date = '2013-05-09'
   s.email = %w[vicent@github.com cj@cjlittle.com]
   s.homepage = 'http://github.com/cjlittle/redcarpet_legalcitations'
   s.authors = ['Natacha Porté', 'Vicent Martí', 'cj little']
